@@ -66,7 +66,7 @@ def get_new_articles(root_url, number_of_pages, filename):
     breaker = False
     while expected_number_of_pages <= number_of_pages:
 
-        actual_links = get_articles(root_url, expected_number_of_pages)
+        actual_links = get_articles(root_url+"/archiv?p=", expected_number_of_pages)
         saved_links = open(filename, "r", encoding="utf8")
 
         #Get fisrt line – link from file with saved links to article
@@ -94,27 +94,24 @@ def get_new_articles(root_url, number_of_pages, filename):
 
 def get_all_articles(root_url, filename):
     """Function printing all articles from root url."""
-    page = 1
-    links = ""
 
-    saved_links = open("articles"+{root_url}+".txt", "a", encoding="utf8")
+    saved_links = open(filename, "r", encoding="utf8")
 
-    article = ""
     for line in saved_links:
         url = "{}{}".format(root_url, line)
         response = requests.get(url)
+       # print(url)
 
         soup = BeautifulSoup(response.content, 'html.parser')
 
-
-        #for anchor in soup.find_all('article', {"class", "detail"}):
-        #    print(anchor.text)
-        #    return
-
-
-ROOT_URL_OF_PAGE = "https://www.parlamentnilisty.cz/archiv?p="
-NUMBER_OF_PAGES = 20 #get_number_of_pages(ROOT_URL_OF_PAGE)
+        for anchor in soup.find_all('div'):
+            print("ahoj")
+            print(anchor.text)
 
 
-get_new_articles(ROOT_URL_OF_PAGE, int(NUMBER_OF_PAGES), "hajaja.txt")
-#get_all_articles(ROOT_URL_OF_PAGE, "hajaja.txt")
+root_url_of_page = "https://www.parlamentnilisty.cz"
+number_of_pages = 20 #get_number_of_pages(root_url_of_page)
+
+
+get_new_articles(root_url_of_page, int(number_of_pages), "hajaja.txt")
+get_all_articles(root_url_of_page, "hajaja.txt")

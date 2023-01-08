@@ -101,9 +101,14 @@ def get_all_articles(root_url, filename):
     response = requests.get("https://www.parlamentnilisty.cz/arena/monitor/Mir-a-spravedlnost-nova-vyzva-k-Ukrajine-Podepsano-padesat-jmen-ktera-uz-nelze-ignorovat-725468")   #TODO: Get all the link in for loop
     soup = BeautifulSoup(response.content, 'html.parser')
 
+    content = ""
+
     for link in soup.find_all('section', {"class":"article-content"}):
         for p in link.find_all("p"):
+            content += p.text
             print(p.text)
+
+    save_articles(content, "newarticle.txt")
 
 
 

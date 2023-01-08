@@ -97,16 +97,14 @@ def get_all_articles(root_url, filename):
 
     saved_links = open(filename, "r", encoding="utf8")
 
-    for line in saved_links:
-        url = "{}{}".format(root_url, line)
-        response = requests.get(url)
-       # print(url)
+    #url = root_url + line
+    response = requests.get("https://www.parlamentnilisty.cz/arena/monitor/Mir-a-spravedlnost-nova-vyzva-k-Ukrajine-Podepsano-padesat-jmen-ktera-uz-nelze-ignorovat-725468")   #TODO: Get all the link in for loop
+    soup = BeautifulSoup(response.content, 'html.parser')
 
-        soup = BeautifulSoup(response.content, 'html.parser')
+    for link in soup.find_all('section', {"class":"article-content"}):
+        for p in link.find_all("p"):
+            print(p.text)
 
-        for anchor in soup.find_all('div'):
-            print("ahoj")
-            print(anchor.text)
 
 
 root_url_of_page = "https://www.parlamentnilisty.cz"

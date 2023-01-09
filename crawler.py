@@ -1,8 +1,9 @@
+import io
 import fileinput
 import os
 import requests
 from bs4 import BeautifulSoup
-import io
+
 
 
 MAX_ARTICLES_ON_PAGE = 15
